@@ -17,7 +17,9 @@ def is_valid?(guess, guesses)
   within_range?(guess) && !guesses.include?(guess)
 end
 
-def validate_guess(guess, guesses)
+def get_valid_guess(guesses)
+  guess = get_guess
+
   until is_valid?(guess, guesses)
     errors = []
 
@@ -46,9 +48,8 @@ guesses = []
 puts "Secret number is: #{SECRET_NUM}\n\n"
 
 # until out of guesses, check whether it's right or wrong
-while guesses.length <= MAX_GUESSES
-  guess = get_guess
-  guess = validate_guess(guess, guesses)
+while guesses.length <= MAX_GUESSES - 1
+  guess = get_valid_guess(guesses)
   guesses << guess
 
   if guess == SECRET_NUM
@@ -60,18 +61,3 @@ while guesses.length <= MAX_GUESSES
 end
 
 puts "You're out of guesses! Goodbye."
-
-
-    # re-prompt for guess until guess is within the right range
-    # until guess >= 1 && guess <= MAX_NUM
-    #   puts "That's not a valid input."
-    #   print "Guess a number between 1 and #{MAX_NUM}: "
-    #   guess = gets.chomp.to_i
-    # end
-
-    # # re-prompt for guess until provide a guess that hasn't already been guessed
-    # while guesses.include?(guess)
-    #   puts "You've already guessed that number!"
-    #   print "Guess a number between 1 and #{MAX_NUM}: "
-    #   guess = gets.chomp.to_i
-    # end
