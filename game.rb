@@ -13,6 +13,13 @@ def within_range?(guess, max)
   guess >= 1 && guess <= max
 end
 
+def validates_within_range(guess, max)
+  until within_range?(guess, MAX_NUM)
+    puts "That's not a valid input."
+    guess = get_guess
+  end
+end
+
 ##############################
 #        PROGRAM
 ##############################
@@ -28,10 +35,7 @@ puts "Secret number is: #{SECRET_NUM}\n\n"
 guess = get_guess
 
 # re-prompt for guess until guess is within the right range
-until within_range?(guess, MAX_NUM)
-  puts "That's not a valid input."
-  guess = get_guess
-end
+guess = validates_within_range(guess, MAX_NUM)
 
 # re-prompt for guess until provide a guess that hasn't already been guessed
 while guesses.include?(guess)
