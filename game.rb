@@ -9,15 +9,29 @@ def get_guess
   gets.chomp.to_i
 end
 
-def within_range?(guess, max)
-  guess >= 1 && guess <= max
+def within_range?(guess)
+  guess >= 1 && guess <= MAX_NUM
 end
 
-def validates_within_range(guess, max)
-  until within_range?(guess, MAX_NUM)
-    puts "That's not a valid input."
+def is_valid?(guess, guesses)
+  within_range?(guess) && !guesses.include?(guess)
+end
+
+def validate_guess(guess, guesses)
+  until is_valid?(guess, guesses)
+    errors = []
+
+    errors << "That's not a valid input." if !within_range?(guess)
+    errors << "You've already guessed that number!" if guesses.include?(guess)
+
+    errors.each do |error|
+      puts error
+    end
+
     guess = get_guess
   end
+
+  guess
 end
 
 ##############################
@@ -31,27 +45,17 @@ MAX_GUESSES = 3
 guesses = []
 puts "Secret number is: #{SECRET_NUM}\n\n"
 
-# Get initial guess
-guess = get_guess
-
-# re-prompt for guess until guess is within the right range
-guess = validates_within_range(guess, MAX_NUM)
-
-# re-prompt for guess until provide a guess that hasn't already been guessed
-while guesses.include?(guess)
-  puts "You've already guessed that number!"
-  guess = get_guess
-end
-
 # until out of guesses, check whether it's right or wrong
 while guesses.length <= MAX_GUESSES
+  guess = get_guess
+  guess = validate_guess(guess, guesses)
+  guesses << guess
+
   if guess == SECRET_NUM
     puts "Congratulations! You win!"
     exit
   else
-    guesses << guess
     puts "Wrong! You have #{MAX_GUESSES - guesses.length} more guesses."
-    guess = get_guess
   end
 end
 
