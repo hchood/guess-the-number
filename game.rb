@@ -9,6 +9,10 @@ def get_guess
   gets.chomp.to_i
 end
 
+def within_range?(guess, max)
+  guess >= 1 && guess <= max
+end
+
 ##############################
 #        PROGRAM
 ##############################
@@ -24,7 +28,7 @@ puts "Secret number is: #{SECRET_NUM}\n\n"
 guess = get_guess
 
 # re-prompt for guess until guess is within the right range
-until guess >= 1 && guess <= MAX_NUM
+until within_range?(guess, MAX_NUM)
   puts "That's not a valid input."
   guess = get_guess
 end
